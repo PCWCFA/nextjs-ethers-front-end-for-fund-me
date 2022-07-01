@@ -44,6 +44,7 @@ export default function Home() {
         });
         await listenForTransactionMine(transactionResponse, provider);
         console.log("Done!");
+        document.getElementById("display-area").innerHTML = "Done!";
       } catch (error) {
         console.log(error);
       }
@@ -64,27 +65,25 @@ export default function Home() {
     });
   }
 
-  // getBalance
-  async function getBalance() {
-    if (typeof window.ethereum != "undefined") {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const balance = await provider.getBalance(contractAddress);
-      console.log(ethers.utils.formatEther(balance));
-    } else {
-      fundButton.innerHTML = "Please install Metamask";
-    }
-  }
-
   return (
     <div className={styles.container}>
       {isConnected ? (
         <>
-          "Already connected to wallet!"
+          <text>
+            Already connected to wallet! Select Fund to fund the contract or Get
+            Balance to get the current balance of the contract.
+          </text>
           <button onClick={() => fund()}>Fund</button>
-          <button onClick={() => getBalance()}>Get Balance</button>
+          <div id="display-area"> </div>
         </>
       ) : (
-        <button onClick={() => connect()}>Connect</button>
+        <>
+          <text>
+            This is a quick PoC of Next.js and Ethers frame. Select Connect to
+            the connect to Metamask.
+          </text>
+          <button onClick={() => connect()}>Connect</button>
+        </>
       )}
     </div>
   );
